@@ -18,10 +18,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: payment_backend
+    env_file:
+      - .env
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/paymentdb
-      SUPER_SECRET_TOKEN: your_super_secret_token_here
       PORT: 3001
     ports:
       - "3001:3001"
