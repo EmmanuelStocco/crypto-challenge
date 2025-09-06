@@ -1,0 +1,15 @@
+{
+  "name": "payment-validation-challenge",
+  "version": "1.0.0",
+  "description": "Full stack payment validation application",
+  "scripts": {
+    "dev": "docker-compose up --build",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:dev": "cd frontend && npm run dev",
+    "build": "docker-compose build",
+    "start": "docker-compose up"
+  },
+  "keywords": ["payment", "validation", "fullstack", "node", "nextjs"],
+  "author": "Emmanuel",
+  "license": "MIT"
+}
