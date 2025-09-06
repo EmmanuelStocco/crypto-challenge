@@ -17,8 +17,11 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
+# Make init script executable
+RUN chmod +x init.sh
+
 # Expose port
 EXPOSE 3001
 
-# Start the application with ts-node
-CMD ["npx", "ts-node", "src/index.ts"]
+# Start the application with init script
+CMD ["./init.sh"]
