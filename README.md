@@ -192,7 +192,8 @@ NEXT_PUBLIC_SUPER_SECRET_TOKEN=meu_token_super_secreto_123
 
 ### Escalabilidade para Alto Volume de Transações
 
-Para suportar transações de alto volume no projeto, segue uma estrutura modularizada, onde é possível fácilmente adicionar novas features e mudanças. O projeto também aplica as validações por meio de Middelwares facilitando assim a adição de alterações e validações para multiplos componentes de formas descentralizada.
+O projeto foi estruturado de forma modular, permitindo adicionar novas funcionalidades e realizar mudanças com facilidade. Além disso, utiliza validações por meio de **middlewares**, o que facilita a aplicação de regras de negócio e verificações de forma descentralizada, garantindo consistência em múltiplos componentes sem acoplamento direto.
+
 
 #### Pensando em escalar a aplicação seria possives aplicar:
 - **Microservices**  
