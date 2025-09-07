@@ -1,16 +1,19 @@
-FROM node:18 AS builder
+# Build + Run em um stage só (mais simples)
+FROM node:18
+
 WORKDIR /app
+
+# Copia só package.json primeiro
 COPY package*.json ./
+
 RUN npm install
+
+# Copia todo o resto do código
 COPY . .
+
+# Gera o build dentro do container
 RUN npm run build
 
-FROM node:18 AS runner
-WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.next ./.next
-
 EXPOSE 3000
 CMD ["npm", "start"]

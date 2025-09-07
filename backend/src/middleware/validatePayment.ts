@@ -10,6 +10,8 @@ const paymentSchema = Joi.object({
 const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export const validatePayment = (req: Request, res: Response, next: NextFunction) => {
+  req.body = req.body || {}; // garante que body existe
+
   const { error } = paymentSchema.validate(req.body);
   
   if (error) {
@@ -20,8 +22,8 @@ export const validatePayment = (req: Request, res: Response, next: NextFunction)
   }
 
   // Check for idempotency key in headers
-  const idempotencyKey = req.headers['x-idempotency-key'] as string;
-  
+  const idempotencyKey = req.headers['x-idempotency-key'] as string; 
+
   if (!idempotencyKey) {
     return res.status(400).json({
       error: 'X-Idempotency-Key header is required'
@@ -36,6 +38,6 @@ export const validatePayment = (req: Request, res: Response, next: NextFunction)
     });
   }
 
-  req.body.idempotencyKey = idempotencyKey;
+  req.body.idempotencyKey = idempotencyKey; // agora seguro
   next();
 };

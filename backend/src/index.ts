@@ -13,13 +13,17 @@ const PORT = parseInt(process.env.PORT || '3001', 10);
 
 // Middleware
 app.use(helmet());
+// app.use(cors({
+//   origin: process.env.NODE_ENV === 'production' 
+//     ? ['https://your-frontend-domain.com'] 
+//     : ['http://localhost:3000'],
+//   credentials: true
+// }));
+app.use(express.json());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.com'] 
-    : ['http://localhost:3000'],
+  origin: true, // libera qualquer origem em dev
   credentials: true
 }));
-app.use(express.json());
 
 // Health check (no auth required)
 app.get('/health', (req, res) => {

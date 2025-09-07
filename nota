@@ -21,7 +21,7 @@ services:
     env_file:
       - .env
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/paymentdb
       PORT: 3001
     ports:
@@ -30,6 +30,9 @@ services:
       - postgres
     networks:
       - payment_network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
 
   frontend:
     build:
@@ -37,7 +40,7 @@ services:
       dockerfile: Dockerfile
     container_name: payment_frontend
     environment:
-      NEXT_PUBLIC_API_URL: http://backend:3001
+      NEXT_PUBLIC_API_URL: http://localhost:3001
       NEXT_PUBLIC_SUPER_SECRET_TOKEN: your_super_secret_token_here
     ports:
       - "3000:3000"
@@ -45,6 +48,9 @@ services:
       - backend
     networks:
       - payment_network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
 volumes:
   postgres_data:
