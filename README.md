@@ -235,6 +235,22 @@ Para garantir observabilidade da aplicação, poderia ser utilizado serviços es
 
 Outra possibilidade é utilizar as proprias ferramentas de onde o projeto estiver em deploy. Através por exemplo do EC2 da AWS é possível acompanhar metricas de uso de memória, processamento, etc.
 
+## 🚀 Deploy
+### 🗄 Banco de Dados
+O banco de dados foi deployado na **Render**. 
+**URL de conexão:** postgresql://crypto_challenge_user:g1WtRPxPwZUSQjD3kwH6Q64FMkqxP9Pf@dpg-d2ut4vmr433s73elma30-a.oregon-postgres.render.com/crypto_challenge em seguida, linkei com o backend e rodei as migrations para organizar a estrutura do bd. 
+
+Após isso, o backend foi conectado ao banco e as migrations foram executadas para organizar a estrutura do banco.
+
+### 💻 Backend
+O backend foi deployado na **Vercel**, conectado ao banco hospedado na Render.  
+**URL do Backend:** [https://crypto-challenge-backend-only-23hk.vercel.app/api/payments](https://crypto-challenge-backend-only-23hk.vercel.app/api/payments)
+
+### 🖥 Frontend
+O frontend também foi deployado na **Vercel**, permitindo testar a aplicação diretamente.  
+**URL do Frontend:** [https://crypto-challenge-frontend-only-vercel.app/](https://crypto-challenge-frontend-only-vercel.app/)
+
+
 ## 📝 Licença
 
 MIT License
