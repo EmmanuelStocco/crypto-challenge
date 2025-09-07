@@ -63,24 +63,7 @@ docker-compose up --build
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:3001
 - Health Check: http://localhost:3001/health
-
-### Execução Local (Desenvolvimento)
-
-1. **Backend**
-```bash
-cd backend
-npm install
-npm run db:generate
-npm run db:migrate
-npm run dev
-```
-
-2. **Frontend**
-```bash
-cd frontend
-npm install
-npm run dev
-```
+ 
 
 ## 📚 API Endpoints
 
@@ -116,27 +99,18 @@ Busca um pagamento específico.
 
 **Headers:**
 - `Authorization: Bearer <SUPER_SECRET_TOKEN>`
+ 
 
-
-## 🔧 Configuração de Ambiente
-
-### Variáveis de Ambiente
-
-## Processos e Ferramentas
+## 🔧 Processos e Ferramentas
 
 Inicialmente, decidi montar toda a base do projeto partindo das configurações do Docker, linkando a arquitetura tanto do front quanto do back. O motivo para isso é que, pelo tempo escasso, achei preferível dar prioridade para o principal do projeto de acordo com a introdução passada.
 
 A escolha de Docker permite:
-
-Ambientes isolados e consistentes;
-
-Facilidade de deploy;
-
-Integração rápida entre frontend e backend;
-
-Redução de problemas de “funciona na minha máquina”.
-
-Defini a arquitetura do backend com as tecnologias necessárias:
+- Ambientes isolados e consistentes;
+- Facilidade de deploy;
+- Integração rápida entre frontend e backend;
+- Redução de problemas de “funciona na minha máquina”.
+- Defini a arquitetura do backend com as tecnologias necessárias:
  
 ## 🏗️ Arquitetura
 ### Backend
@@ -152,19 +126,13 @@ backend/
 │   └── schema.prisma   # Schema do banco de dados
 └── Dockerfile
 ```
-Justificativa da Arquitetura Backend:
-
-Controllers: Separação da lógica de rotas, facilitando manutenção e testes.
-
-Middleware: Centraliza autenticação, validação e tratamento de erros.
-
-Routes: Define caminhos da API de forma clara e modular.
-
-Services: Contém a lógica de negócio, mantendo controllers leves e focados.
-
-Prisma: ORM moderno que facilita integração com o banco de dados e migrations.
-
-Dockerfile: Permite empacotar o backend em container isolado, pronto para deploy.
+**Justificativa da Arquitetura Backend:**
+- Controllers: Separação da lógica de rotas, facilitando manutenção e testes.
+- Middleware: Centraliza autenticação, validação e tratamento de erros.
+- Routes: Define caminhos da API de forma clara e modular.
+- Services: Contém a lógica de negócio, mantendo controllers leves e focados.
+- Prisma: ORM moderno que facilita integração com o banco de dados e migrations.
+- Dockerfile: Permite empacotar o backend em container isolado, pronto para deploy.
 
 ### Frontend
 ```
@@ -176,19 +144,13 @@ frontend/
 │   └── globals.css     # Estilos globais
 └── Dockerfile
 ```
-Justificativa da Arquitetura Frontend:
-
-Components: Separação de componentes reutilizáveis, facilitando manutenção e testes.
-
-Services: Centraliza chamadas de API, evitando duplicação de lógica.
-
-Providers: Contexts e Query providers para gerenciamento de estado e dados.
-
-Globals.css: Estilos globais, garantindo consistência visual.
-
-Dockerfile: Permite empacotar o frontend em container isolado, integrável facilmente com backend.
-
-
+**Justificativa da Arquitetura Frontend:**
+- Components: Separação de componentes reutilizáveis, facilitando manutenção e testes.
+- Services: Centraliza chamadas de API, evitando duplicação de lógica.
+- Providers: Contexts e Query providers para gerenciamento de estado e dados.
+- Globals.css: Estilos globais, garantindo consistência visual.
+- Dockerfile: Permite empacotar o frontend em container isolado, integrável facilmente com backend.
+ 
 
 
 **Backend (.env)**
