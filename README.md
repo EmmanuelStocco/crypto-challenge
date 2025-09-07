@@ -44,7 +44,7 @@ Sistema full stack para validação de transações de pagamento com suporte a i
 
 1. **Clone o repositório**
 ```bash
-git clone <repository-url>
+git clone https://github.com/EmmanuelStocco/crypto-challenge
 cd payment-validation-system
 ```
 
@@ -117,8 +117,28 @@ Busca um pagamento específico.
 **Headers:**
 - `Authorization: Bearer <SUPER_SECRET_TOKEN>`
 
-## 🏗️ Arquitetura
 
+## 🔧 Configuração de Ambiente
+
+### Variáveis de Ambiente
+
+## Processos e Ferramentas
+
+Inicialmente, decidi montar toda a base do projeto partindo das configurações do Docker, linkando a arquitetura tanto do front quanto do back. O motivo para isso é que, pelo tempo escasso, achei preferível dar prioridade para o principal do projeto de acordo com a introdução passada.
+
+A escolha de Docker permite:
+
+Ambientes isolados e consistentes;
+
+Facilidade de deploy;
+
+Integração rápida entre frontend e backend;
+
+Redução de problemas de “funciona na minha máquina”.
+
+Defini a arquitetura do backend com as tecnologias necessárias:
+ 
+## 🏗️ Arquitetura
 ### Backend
 ```
 backend/
@@ -132,6 +152,19 @@ backend/
 │   └── schema.prisma   # Schema do banco de dados
 └── Dockerfile
 ```
+Justificativa da Arquitetura Backend:
+
+Controllers: Separação da lógica de rotas, facilitando manutenção e testes.
+
+Middleware: Centraliza autenticação, validação e tratamento de erros.
+
+Routes: Define caminhos da API de forma clara e modular.
+
+Services: Contém a lógica de negócio, mantendo controllers leves e focados.
+
+Prisma: ORM moderno que facilita integração com o banco de dados e migrations.
+
+Dockerfile: Permite empacotar o backend em container isolado, pronto para deploy.
 
 ### Frontend
 ```
@@ -143,10 +176,20 @@ frontend/
 │   └── globals.css     # Estilos globais
 └── Dockerfile
 ```
+Justificativa da Arquitetura Frontend:
 
-## 🔧 Configuração de Ambiente
+Components: Separação de componentes reutilizáveis, facilitando manutenção e testes.
 
-### Variáveis de Ambiente
+Services: Centraliza chamadas de API, evitando duplicação de lógica.
+
+Providers: Contexts e Query providers para gerenciamento de estado e dados.
+
+Globals.css: Estilos globais, garantindo consistência visual.
+
+Dockerfile: Permite empacotar o frontend em container isolado, integrável facilmente com backend.
+
+
+
 
 **Backend (.env)**
 ```env
@@ -162,16 +205,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 NEXT_PUBLIC_SUPER_SECRET_TOKEN=your_super_secret_token_here
 ```
 
-## 🚀 Deploy
-
-### Backend (Railway/Heroku/Vercel)
-1. Configure as variáveis de ambiente
-2. Deploy do Dockerfile
-3. Configure a DATABASE_URL para PostgreSQL
-
-### Frontend (Vercel/Netlify)
-1. Configure as variáveis de ambiente
-2. Deploy automático via Git
+## 🚀 Deploy 
 
 ## 📊 Escalabilidade
 
