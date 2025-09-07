@@ -103,16 +103,18 @@ Busca um pagamento específico.
 
 ## 🔧 Processos e Ferramentas
 
-Inicialmente, decidi montar toda a base do projeto partindo das configurações do Docker, linkando a arquitetura tanto do front quanto do back. O motivo para isso é que, pelo tempo escasso, achei preferível dar prioridade para o principal do projeto de acordo com a introdução passada.
+Inicialmente, organizei toda a base do projeto usando Docker, integrando a arquitetura do front e do back. Optei por essa abordagem porque, devido ao tempo limitado, era prioritário garantir que o núcleo do projeto estivesse funcional desde o início. Utilizei ferramentas exigidas misturando com as que possuo mais familiariedade como Express, Prisma, Axios, etc. 
 
-A escolha de Docker permite:
-- Ambientes isolados e consistentes;
-- Facilidade de deploy;
-- Integração rápida entre frontend e backend;
-- Redução de problemas de “funciona na minha máquina”.
-- Defini a arquitetura do backend com as tecnologias necessárias:
- 
-## 🏗️ Arquitetura
+Após estruturar o backend, configurei o frontend, aplicando a lógica de criação e validações necessárias e integrando as telas com o backend. Em seguida, ajustei o Docker para que ambos os projetos rodassem corretamente com um único comando.
+
+Em relação ao desafio de criptografia, o primeiro arquivo era codificado em Base64, então bastou realizar a decodificação para obter a frase secreta:  
+*"The key will be one before its time and will stand for anetnity and serve as a source of integration. Convenades will be broken. Our return is the gift of chaos"*  
+
+Com base nessa frase, tentei aplicar lógicas de descriptografia invertendo caracteres conforme as dicas fornecidas, mas não obtive resultados concretos. Por isso, segui utilizando chaves aleatórias para continuar o desenvolvimento do projeto.
+
+
+## 🏗️ Decisões Arquiteturais
+
 ### Backend
 ```
 backend/
@@ -151,73 +153,86 @@ frontend/
 - Globals.css: Estilos globais, garantindo consistência visual.
 - Dockerfile: Permite empacotar o frontend em container isolado, integrável facilmente com backend.
  
+ 
 
+**Base (.env geral para o Docker)**
+```env
+# Database
+DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/paymentdb
+
+# Authentication
+SUPER_SECRET_TOKEN=meu_token_super_secreto_123
+
+# Backend
+PORT=3001
+NODE_ENV=development
+
+# Frontend
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_SUPER_SECRET_TOKEN=meu_token_super_secreto_123
+```
 
 **Backend (.env)**
 ```env
-DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/paymentdb
-SUPER_SECRET_TOKEN=your_super_secret_token_here
+DATABASE_URL=postgresql://postgres:postgres123@postgres:5432/paymentdb 
+# Authentication
+SUPER_SECRET_TOKEN=meu_token_super_secreto_123 
+# Server
 PORT=3001
 NODE_ENV=development
 ```
 
-**Frontend (.env.local)**
+**Frontend (.env)**
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3001
-NEXT_PUBLIC_SUPER_SECRET_TOKEN=your_super_secret_token_here
+NEXT_PUBLIC_SUPER_SECRET_TOKEN=meu_token_super_secreto_123
 ```
+ 
+ ## 🏗️ Decisões Arquiteturais
 
-## 🚀 Deploy 
+### Escalabilidade para Alto Volume de Transações
 
-## 📊 Escalabilidade
+Para suportar transações de alto volume no projeto, segue uma estrutura modularizada, onde é possível fácilmente adicionar novas features e mudanças. O projeto também aplica as validações por meio de Middelwares facilitando assim a adição de alterações e validações para multiplos componentes de formas descentralizada.
 
-### Para Alto Volume de Transações
+#### Pensando em escalar a aplicação seria possives aplicar:
+- **Microservices**  
+  - Serviços separados: usuários, pagamentos, notificações, backend principal e frontend.  
+  - Permite escalar apenas os serviços que precisam de mais recursos.
 
-1. **Filas de Processamento**
-   - Redis + Bull para processamento assíncrono
-   - Dead letter queues para retry de falhas
+- **Processamento Assíncrono e Filas (Queues)**  
+  - Tarefas críticas, como pagamentos ou envio de notificações, são processadas de forma assíncrona.  
+  - Implementação via **RabbitMQ** ou **Kafka**, garantindo que picos de tráfego não travem o backend.
+ 
+- **Event-Driven Architecture**  
+  - Eventos disparados por mudanças de estado (ex: pagamento confirmado) permitem que múltiplos serviços consumam essas informações sem acoplamento direto.
 
-2. **Banco de Dados**
-   - Read replicas para consultas
-   - Sharding por região/usuário
-   - Índices otimizados
+- **Auto Scaling e Load Balancer**  
+  - AWS Auto Scaling ajusta o número de instâncias do backend conforme a carga.  
+  - Load Balancer distribui requisições de forma uniforme entre instâncias.
 
-3. **Cache**
-   - Redis para cache de consultas frequentes
-   - CDN para assets estáticos
-
-4. **Monitoramento**
-   - APM (Application Performance Monitoring)
-   - Logs centralizados (ELK Stack)
-   - Métricas de negócio
+---
 
 ## 🔍 Observabilidade
 
-### Logs
-- Structured logging com Winston
-- Log levels configuráveis
-- Correlação de requests
+Para garantir observabilidade da aplicação, poderia ser utilizado serviços específicos para isso:
 
-### Métricas
-- Prometheus + Grafana
-- Métricas de negócio (pagamentos/minuto)
-- Health checks
+- **Logs Centralizados**  
+  - Logs do backend centralizados via **ELK Stack (Elasticsearch + Logstash + Kibana)** ou **Grafana Loki**.  
+  - Facilita rastrear erros e identificar padrões de uso.
 
-### Tracing
-- OpenTelemetry para distributed tracing
-- Correlação entre serviços
+- **Monitoramento de Métricas**  
+  - Métricas de CPU, memória, latência das APIs e tempo de resposta do DB.  
+  - Ferramentas sugeridas: **Prometheus + Grafana**, **Datadog** ou **New Relic**.
 
-## 🧪 Testes
+- **Tracing Distribuído**  
+  - Permite acompanhar o caminho completo de uma requisição entre serviços.  
+  - Ferramentas: **Jaeger**, **OpenTelemetry**.
 
-```bash
-# Backend
-cd backend
-npm test
+- **Alertas Proativos**  
+  - Alertas configurados para alta latência, aumento de erros ou sobrecarga do DB.  
+  - Notificações via **Slack, email ou SMS**.
 
-# Frontend
-cd frontend
-npm test
-```
+Outra possibilidade é utilizar as proprias ferramentas de onde o projeto estiver em deploy. Através por exemplo do EC2 da AWS é possível acompanhar metricas de uso de memória, processamento, etc.
 
 ## 📝 Licença
 
