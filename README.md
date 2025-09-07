@@ -248,7 +248,7 @@ O backend foi deployado na **Vercel**, conectado ao banco hospedado na Render.
 
 ### 🖥 Frontend
 O frontend também foi deployado na **Vercel**, permitindo testar a aplicação diretamente.  
-**URL do Frontend:** [https://crypto-challenge-frontend-only-vercel.app/](https://crypto-challenge-frontend-only-vercel.app/)
+**URL do Frontend:** [https://crypto-challenge-frontend-only-vercel.app/](https://crypto-challenge-frontend-only.vercel.app/)
 
 
 ## 📝 Licença
