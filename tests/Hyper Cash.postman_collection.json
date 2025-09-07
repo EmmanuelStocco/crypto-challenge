@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "a2392982-4d48-4e51-beb2-a54e10945c5b",
+		"name": "Hyper Cash",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16394368"
+	},
+	"item": [
+		{
+			"name": "post payments",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer meu_token_super_secreto_123",
+						"type": "text"
+					},
+					{
+						"key": "X-Idempotency-Key",
+						"value": "123e4567-e89b-12d3-a456-426614174000",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"amount\": 100.10,\r\n  \"description\": \"Teste via Postman\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3001/api/payments"
+			},
+			"response": []
+		}
+	]
+}
