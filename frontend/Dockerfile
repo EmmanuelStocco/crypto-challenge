@@ -1,21 +1,16 @@
-FROM node:18-alpine
-
+FROM node:18 AS builder
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
-
-# Copy source code
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Expose port
-EXPOSE 3000
+FROM node:18 AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
 
-# Start the application
+EXPOSE 3000
 CMD ["npm", "start"]

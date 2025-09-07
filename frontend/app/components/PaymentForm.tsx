@@ -115,10 +115,10 @@ export default function PaymentForm() {
 
       <button
         type="submit"
-        disabled={mutation.isPending}
+        disabled={mutation.isLoading}
         className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {mutation.isPending ? 'Creating Payment...' : 'Create Payment'}
+        {mutation.isLoading ? 'Creating Payment...' : 'Create Payment'}
       </button>
     </form>
   )
